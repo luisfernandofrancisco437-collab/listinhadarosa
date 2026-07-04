@@ -1,0 +1,1748 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listinha da Rosa</title>
+    <style>
+:root {
+  --mint: #76c7ad;
+  --mint-dark: #2f7c68;
+  --coral: #f07867;
+  --rose: #e86f93;
+  --rose-dark: #b63d67;
+  --blush: #ffe8ef;
+  --sky: #5c8fba;
+  --ink: #24312f;
+  --muted: #687573;
+  --line: #dce8e4;
+  --paper: #ffffff;
+  --soft: #f5faf8;
+  --warning: #f3b23f;
+  --danger: #d9514e;
+  --success: #239b68;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--soft);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  min-height: 44px;
+  border: 0;
+  cursor: pointer;
+}
+
+.app-shell {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 7vw, 2.6rem);
+  line-height: 1;
+}
+
+.brand p {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.logo {
+  position: relative;
+  flex: 0 0 54px;
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, var(--blush), #ffffff 52%, #dff4ec);
+  border: 1px solid #ffd0de;
+  box-shadow: 0 8px 18px rgba(182, 61, 103, 0.14);
+}
+
+.logo-house {
+  position: absolute;
+  left: 13px;
+  top: 17px;
+  width: 27px;
+  height: 27px;
+  border-left: 4px solid var(--mint-dark);
+  border-top: 4px solid var(--mint-dark);
+  transform: rotate(45deg);
+}
+
+.logo-house::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 15px;
+  height: 15px;
+  background: white;
+  transform: rotate(-45deg);
+}
+
+.logo-petal {
+  position: absolute;
+  width: 14px;
+  height: 18px;
+  border-radius: 999px 999px 999px 4px;
+  background: var(--rose);
+  transform-origin: 50% 100%;
+}
+
+.petal-one {
+  right: 10px;
+  top: 9px;
+  transform: rotate(22deg);
+}
+
+.petal-two {
+  right: 19px;
+  top: 8px;
+  background: #f49ab2;
+  transform: rotate(-28deg);
+}
+
+.petal-three {
+  right: 15px;
+  top: 2px;
+  width: 13px;
+  height: 16px;
+  background: var(--rose-dark);
+  transform: rotate(-2deg);
+}
+
+.logo-leaf {
+  position: absolute;
+  right: 11px;
+  bottom: 13px;
+  width: 18px;
+  height: 10px;
+  border-radius: 999px 2px 999px 2px;
+  background: var(--mint);
+  transform: rotate(-18deg);
+}
+
+.icon-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--mint-dark);
+  box-shadow: 0 2px 10px rgba(36, 49, 47, 0.08);
+  font-size: 1.4rem;
+}
+
+.summary-grid,
+.insight-grid,
+.recipe-grid,
+.tool-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.summary-card,
+.entry-panel,
+.chart-wrap,
+.insight-grid article,
+.product-history,
+.recipe-card,
+.tool-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(36, 49, 47, 0.06);
+}
+
+.summary-card {
+  padding: 14px;
+}
+
+.summary-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.summary-card strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.35rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin: 16px 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.tab-button {
+  flex: 0 0 auto;
+  min-width: 92px;
+  padding: 10px 8px;
+  border-radius: 8px;
+  background: #e9f3ef;
+  color: var(--mint-dark);
+  font-weight: 700;
+}
+
+.tab-button.active {
+  background: var(--mint-dark);
+  color: white;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.entry-panel {
+  padding: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  padding: 10px 12px;
+}
+
+input:focus,
+select:focus {
+  outline: 3px solid rgba(118, 199, 173, 0.28);
+  border-color: var(--mint-dark);
+}
+
+.price-helper {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.slim-panel {
+  margin-bottom: 12px;
+}
+
+.form-actions,
+.list-toolbar,
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.primary-button,
+.secondary-button,
+.ghost-button {
+  border-radius: 8px;
+  padding: 0 16px;
+  font-weight: 800;
+}
+
+.primary-button {
+  background: var(--coral);
+  color: white;
+}
+
+.secondary-button {
+  background: var(--mint-dark);
+  color: white;
+}
+
+.ghost-button {
+  background: transparent;
+  color: var(--mint-dark);
+  border: 1px solid var(--line);
+}
+
+.compact {
+  min-height: 38px;
+  padding: 0 12px;
+}
+
+.shopping-list,
+.pantry-list,
+.finance-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.item-card,
+.pantry-card,
+.finance-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.item-card.checked {
+  opacity: 0.68;
+}
+
+.item-card.checked .item-title {
+  text-decoration: line-through;
+}
+
+.item-check {
+  width: 28px;
+  height: 28px;
+  accent-color: var(--mint-dark);
+}
+
+.item-title,
+.pantry-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.item-meta,
+.pantry-meta,
+.finance-row span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.price-badge {
+  display: grid;
+  gap: 4px;
+  justify-items: end;
+  text-align: right;
+  font-weight: 800;
+}
+
+.trend {
+  font-size: 0.83rem;
+}
+
+.trend.up {
+  color: var(--danger);
+}
+
+.trend.down {
+  color: var(--success);
+}
+
+.trend.same {
+  color: var(--warning);
+}
+
+.empty-state {
+  display: none;
+  margin-top: 14px;
+  padding: 18px;
+  color: var(--muted);
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+}
+
+.empty-state.visible {
+  display: block;
+}
+
+.chart-wrap {
+  margin-top: 12px;
+  padding: 12px;
+  overflow: hidden;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+}
+
+.insight-grid article,
+.product-history,
+.recipe-card,
+.tool-card {
+  padding: 14px;
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 1.15rem;
+}
+
+ol {
+  margin: 0;
+  padding-left: 22px;
+}
+
+li {
+  margin: 10px 0;
+}
+
+.history-button {
+  width: 100%;
+  min-height: auto;
+  padding: 8px 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+}
+
+.mini-timeline {
+  display: grid;
+  gap: 8px;
+}
+
+.timeline-row {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  color: var(--muted);
+}
+
+.bar {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--mint);
+}
+
+.pantry-card {
+  grid-template-columns: 1fr auto;
+}
+
+.pantry-status {
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  color: white;
+}
+
+.pantry-status.ok {
+  background: var(--success);
+}
+
+.pantry-status.warn {
+  background: var(--warning);
+}
+
+.pantry-status.danger {
+  background: var(--danger);
+}
+
+.recipe-card p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.budget-status,
+.tool-result {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #eef7f4;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.budget-status.over {
+  background: #fdebe8;
+  color: var(--danger);
+}
+
+.budget-status.warn {
+  background: #fff4df;
+  color: #8a5a00;
+}
+
+.stack-form {
+  display: grid;
+  gap: 10px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.quick-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.quick-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfdfc;
+}
+
+.quick-card.done {
+  opacity: 0.62;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+dialog {
+  width: min(520px, calc(100% - 24px));
+  border: 0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+dialog::backdrop {
+  background: rgba(36, 49, 47, 0.45);
+}
+
+video {
+  width: 100%;
+  min-height: 220px;
+  background: #101715;
+  border-radius: 8px;
+}
+
+@media (min-width: 720px) {
+  .app-shell {
+    padding: 24px;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .tab-button {
+    min-width: 0;
+  }
+
+  .form-grid {
+    grid-template-columns: 1.4fr 0.8fr 1fr 0.8fr;
+  }
+
+  .pantry-grid {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+
+  .budget-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .two-col {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .insight-grid,
+  .recipe-grid,
+  .tool-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+</style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <span class="logo-house"></span>
+            <span class="logo-petal petal-one"></span>
+            <span class="logo-petal petal-two"></span>
+            <span class="logo-petal petal-three"></span>
+            <span class="logo-leaf"></span>
+          </div>
+          <div>
+            <h1>Listinha da Rosa</h1>
+            <p>Compras, casa e carinho no controle</p>
+          </div>
+        </div>
+        <button class="icon-button" id="resetDemoBtn" type="button" title="Recarregar dados de exemplo" aria-label="Recarregar dados de exemplo">
+          <span aria-hidden="true">R</span>
+        </button>
+      </header>
+
+      <main>
+        <section class="summary-grid" aria-label="Resumo">
+          <article class="summary-card">
+            <span>Lista atual</span>
+            <strong id="currentTotal">R$ 0,00</strong>
+          </article>
+          <article class="summary-card">
+            <span>No carrinho</span>
+            <strong id="checkedCount">0 itens</strong>
+          </article>
+          <article class="summary-card">
+            <span>Despensa</span>
+            <strong id="pantryAlert">Tudo ok</strong>
+          </article>
+        </section>
+
+        <nav class="tabs" aria-label="Modulos do app">
+          <button class="tab-button active" type="button" data-tab="shopping">Lista</button>
+          <button class="tab-button" type="button" data-tab="finance">Gastos</button>
+          <button class="tab-button" type="button" data-tab="insights">Rankings</button>
+          <button class="tab-button" type="button" data-tab="pantry">Despensa</button>
+          <button class="tab-button" type="button" data-tab="recipes">Receitas</button>
+          <button class="tab-button" type="button" data-tab="tools">Ferramentas</button>
+        </nav>
+
+        <section class="tab-panel active" id="shopping" aria-labelledby="Lista">
+          <form class="entry-panel" id="itemForm">
+            <div class="form-grid">
+              <label>
+                Produto
+                <input id="itemName" list="historyList" autocomplete="off" placeholder="Ex: arroz, leite, banana" required>
+              </label>
+              <label>
+                Quantidade
+                <input id="itemQty" placeholder="Ex: 2 kg" required>
+              </label>
+              <label>
+                Categoria
+                <select id="itemCategory">
+                  <option>Alimentacao</option>
+                  <option>Limpeza</option>
+                  <option>Feira</option>
+                  <option>Higiene</option>
+                  <option>Outros</option>
+                </select>
+              </label>
+              <label>
+                Preco atual
+                <input id="itemPrice" inputmode="decimal" placeholder="0,00" required>
+              </label>
+            </div>
+            <div class="price-helper" id="priceHelper">Digite um produto para ver o ultimo preco pago.</div>
+            <div class="form-actions">
+              <button class="primary-button" type="submit">Adicionar</button>
+              <button class="secondary-button" id="barcodeBtn" type="button">Codigo</button>
+              <button class="secondary-button" id="shareBtn" type="button">WhatsApp</button>
+            </div>
+          </form>
+
+          <datalist id="historyList"></datalist>
+          <div class="list-toolbar">
+            <button class="secondary-button compact" id="finishPurchaseBtn" type="button">Finalizar compra</button>
+            <button class="ghost-button compact" id="clearCheckedBtn" type="button">Remover marcados</button>
+          </div>
+          <div class="shopping-list" id="shoppingList"></div>
+          <div class="empty-state" id="shoppingEmpty">Sua lista esta pronta para receber os primeiros itens.</div>
+        </section>
+
+        <section class="tab-panel" id="finance" aria-labelledby="Gastos">
+          <form class="entry-panel slim-panel" id="budgetForm">
+            <div class="form-grid budget-grid">
+              <label>
+                Orcamento do mes
+                <input id="monthlyBudget" inputmode="decimal" placeholder="Ex: 900,00">
+              </label>
+              <label>
+                Mercado principal
+                <input id="mainStore" placeholder="Ex: Atacadao, Assai, feira">
+              </label>
+            </div>
+            <div class="form-actions">
+              <button class="secondary-button" type="submit">Salvar meta</button>
+            </div>
+            <div class="budget-status" id="budgetStatus"></div>
+          </form>
+          <div class="controls-row">
+            <label>
+              Periodo
+              <select id="periodFilter">
+                <option value="week">Semana</option>
+                <option value="month" selected>Mes</option>
+                <option value="year">Ano</option>
+              </select>
+            </label>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="spendChart" width="640" height="320" aria-label="Grafico de gastos por categoria"></canvas>
+          </div>
+          <div class="finance-list" id="financeList"></div>
+        </section>
+
+        <section class="tab-panel" id="insights" aria-labelledby="Rankings">
+          <div class="insight-grid">
+            <article>
+              <h2>Mais queridos</h2>
+              <ol id="favoriteRanking"></ol>
+            </article>
+            <article>
+              <h2>Peso no bolso</h2>
+              <ol id="expensiveRanking"></ol>
+            </article>
+          </div>
+          <div class="product-history" id="productHistory"></div>
+        </section>
+
+        <section class="tab-panel" id="pantry" aria-labelledby="Despensa">
+          <form class="entry-panel" id="pantryForm">
+            <div class="form-grid pantry-grid">
+              <label>
+                Item
+                <input id="pantryName" placeholder="Ex: feijao, molho, farinha" required>
+              </label>
+              <label>
+                Validade
+                <input id="pantryDate" type="date" required>
+              </label>
+              <label>
+                Quantidade
+                <input id="pantryQty" placeholder="Ex: 1 pacote" required>
+              </label>
+            </div>
+            <div class="form-actions">
+              <button class="primary-button" type="submit">Salvar na despensa</button>
+            </div>
+          </form>
+          <div class="pantry-list" id="pantryList"></div>
+        </section>
+
+        <section class="tab-panel" id="recipes" aria-labelledby="Receitas">
+          <div class="recipe-grid" id="recipeGrid"></div>
+        </section>
+
+        <section class="tab-panel" id="tools" aria-labelledby="Ferramentas">
+          <div class="tool-grid">
+            <article class="tool-card">
+              <h2>Compras recorrentes</h2>
+              <form id="recurringForm" class="stack-form">
+                <label>
+                  Produto
+                  <input id="recurringName" placeholder="Ex: gas, leite, pao" required>
+                </label>
+                <div class="two-col">
+                  <label>
+                    Quantidade
+                    <input id="recurringQty" placeholder="Ex: 1 un" required>
+                  </label>
+                  <label>
+                    Preco
+                    <input id="recurringPrice" inputmode="decimal" placeholder="0,00" required>
+                  </label>
+                </div>
+                <label>
+                  Categoria
+                  <select id="recurringCategory">
+                    <option>Alimentacao</option>
+                    <option>Limpeza</option>
+                    <option>Feira</option>
+                    <option>Higiene</option>
+                    <option>Outros</option>
+                  </select>
+                </label>
+                <button class="primary-button" type="submit">Criar atalho</button>
+              </form>
+              <div class="quick-list" id="recurringList"></div>
+            </article>
+
+            <article class="tool-card">
+              <h2>Menor preco por unidade</h2>
+              <form id="unitForm" class="stack-form">
+                <div class="two-col">
+                  <label>
+                    Preco A
+                    <input id="unitPriceA" inputmode="decimal" placeholder="9,90">
+                  </label>
+                  <label>
+                    Qtd A
+                    <input id="unitQtyA" inputmode="decimal" placeholder="500">
+                  </label>
+                </div>
+                <div class="two-col">
+                  <label>
+                    Preco B
+                    <input id="unitPriceB" inputmode="decimal" placeholder="16,90">
+                  </label>
+                  <label>
+                    Qtd B
+                    <input id="unitQtyB" inputmode="decimal" placeholder="1000">
+                  </label>
+                </div>
+                <button class="secondary-button" type="submit">Comparar</button>
+              </form>
+              <div class="tool-result" id="unitResult">Compare duas embalagens para descobrir qual compensa.</div>
+            </article>
+
+            <article class="tool-card">
+              <h2>Tarefas da casa</h2>
+              <form id="choreForm" class="stack-form">
+                <label>
+                  Tarefa
+                  <input id="choreName" placeholder="Ex: lavar banheiro, trocar roupa de cama" required>
+                </label>
+                <div class="two-col">
+                  <label>
+                    Responsavel
+                    <input id="choreOwner" placeholder="Ex: eu, filho, marido">
+                  </label>
+                  <label>
+                    Dia
+                    <input id="choreDay" type="date" required>
+                  </label>
+                </div>
+                <button class="primary-button" type="submit">Adicionar tarefa</button>
+              </form>
+              <div class="quick-list" id="choreList"></div>
+            </article>
+
+            <article class="tool-card">
+              <h2>Lista por mercado</h2>
+              <div class="tool-result" id="storePlan"></div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="barcodeDialog">
+      <form method="dialog">
+        <h2>Leitor de codigo</h2>
+        <video id="barcodeVideo" playsinline muted></video>
+        <p id="barcodeStatus">A camera sera usada quando o navegador permitir BarcodeDetector.</p>
+        <div class="form-actions">
+          <button class="secondary-button" value="cancel" type="submit">Fechar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script>
+(function () {
+  const currency = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+  const storageKey = "larpratico-state-v1";
+
+  const recipes = [
+    {
+      title: "Arroz de forno economico",
+      needs: ["arroz", "molho", "queijo", "frango"],
+      text: "Aproveita sobras de arroz e proteina para render uma refeicao completa."
+    },
+    {
+      title: "Omelete de feira",
+      needs: ["ovo", "tomate", "cebola", "verdura"],
+      text: "Rapida, barata e boa para usar itens frescos antes de vencer."
+    },
+    {
+      title: "Sopa cremosa de legumes",
+      needs: ["batata", "cenoura", "abobora", "macarrao"],
+      text: "Ideal para transformar legumes soltos em jantar leve."
+    },
+    {
+      title: "Panqueca simples",
+      needs: ["farinha", "leite", "ovo", "carne"],
+      text: "Funciona com recheios variados e ajuda a esticar ingredientes."
+    }
+  ];
+
+  let state = loadState();
+  let barcodeStream = null;
+
+  const els = {
+    tabs: document.querySelectorAll(".tab-button"),
+    panels: document.querySelectorAll(".tab-panel"),
+    itemForm: document.getElementById("itemForm"),
+    itemName: document.getElementById("itemName"),
+    itemQty: document.getElementById("itemQty"),
+    itemCategory: document.getElementById("itemCategory"),
+    itemPrice: document.getElementById("itemPrice"),
+    priceHelper: document.getElementById("priceHelper"),
+    historyList: document.getElementById("historyList"),
+    shoppingList: document.getElementById("shoppingList"),
+    shoppingEmpty: document.getElementById("shoppingEmpty"),
+    currentTotal: document.getElementById("currentTotal"),
+    checkedCount: document.getElementById("checkedCount"),
+    pantryAlert: document.getElementById("pantryAlert"),
+    shareBtn: document.getElementById("shareBtn"),
+    clearCheckedBtn: document.getElementById("clearCheckedBtn"),
+    finishPurchaseBtn: document.getElementById("finishPurchaseBtn"),
+    periodFilter: document.getElementById("periodFilter"),
+    budgetForm: document.getElementById("budgetForm"),
+    monthlyBudget: document.getElementById("monthlyBudget"),
+    mainStore: document.getElementById("mainStore"),
+    budgetStatus: document.getElementById("budgetStatus"),
+    spendChart: document.getElementById("spendChart"),
+    financeList: document.getElementById("financeList"),
+    favoriteRanking: document.getElementById("favoriteRanking"),
+    expensiveRanking: document.getElementById("expensiveRanking"),
+    productHistory: document.getElementById("productHistory"),
+    pantryForm: document.getElementById("pantryForm"),
+    pantryName: document.getElementById("pantryName"),
+    pantryDate: document.getElementById("pantryDate"),
+    pantryQty: document.getElementById("pantryQty"),
+    pantryList: document.getElementById("pantryList"),
+    recipeGrid: document.getElementById("recipeGrid"),
+    barcodeBtn: document.getElementById("barcodeBtn"),
+    barcodeDialog: document.getElementById("barcodeDialog"),
+    barcodeVideo: document.getElementById("barcodeVideo"),
+    barcodeStatus: document.getElementById("barcodeStatus"),
+    resetDemoBtn: document.getElementById("resetDemoBtn"),
+    recurringForm: document.getElementById("recurringForm"),
+    recurringName: document.getElementById("recurringName"),
+    recurringQty: document.getElementById("recurringQty"),
+    recurringPrice: document.getElementById("recurringPrice"),
+    recurringCategory: document.getElementById("recurringCategory"),
+    recurringList: document.getElementById("recurringList"),
+    unitForm: document.getElementById("unitForm"),
+    unitPriceA: document.getElementById("unitPriceA"),
+    unitQtyA: document.getElementById("unitQtyA"),
+    unitPriceB: document.getElementById("unitPriceB"),
+    unitQtyB: document.getElementById("unitQtyB"),
+    unitResult: document.getElementById("unitResult"),
+    choreForm: document.getElementById("choreForm"),
+    choreName: document.getElementById("choreName"),
+    choreOwner: document.getElementById("choreOwner"),
+    choreDay: document.getElementById("choreDay"),
+    choreList: document.getElementById("choreList"),
+    storePlan: document.getElementById("storePlan")
+  };
+
+  bindEvents();
+  render();
+
+  function bindEvents() {
+    els.tabs.forEach((button) => {
+      button.addEventListener("click", () => setTab(button.dataset.tab));
+    });
+
+    els.itemForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      addShoppingItem();
+    });
+
+    els.itemName.addEventListener("input", updatePriceHelper);
+    els.itemPrice.addEventListener("input", updatePriceHelper);
+    els.shareBtn.addEventListener("click", shareList);
+    els.clearCheckedBtn.addEventListener("click", clearChecked);
+    els.finishPurchaseBtn.addEventListener("click", finishPurchase);
+    els.periodFilter.addEventListener("change", renderFinance);
+    els.budgetForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      saveBudget();
+    });
+    els.pantryForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      addPantryItem();
+    });
+    els.recurringForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      addRecurringItem();
+    });
+    els.unitForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      compareUnitPrices();
+    });
+    els.choreForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      addChore();
+    });
+    els.barcodeBtn.addEventListener("click", startBarcodeReader);
+    els.barcodeDialog.addEventListener("close", stopBarcodeReader);
+    els.resetDemoBtn.addEventListener("click", () => {
+      state = createDemoState();
+      saveState();
+      render();
+    });
+  }
+
+  function setTab(tabName) {
+    els.tabs.forEach((button) => button.classList.toggle("active", button.dataset.tab === tabName));
+    els.panels.forEach((panel) => panel.classList.toggle("active", panel.id === tabName));
+  }
+
+  function addShoppingItem() {
+    const name = normalizeName(els.itemName.value);
+    const price = parsePrice(els.itemPrice.value);
+    if (!name || Number.isNaN(price)) return;
+
+    const comparison = comparePrice(name, price);
+    state.shopping.unshift({
+      id: crypto.randomUUID(),
+      name,
+      qty: els.itemQty.value.trim(),
+      category: els.itemCategory.value,
+      price,
+      checked: false,
+      createdAt: new Date().toISOString(),
+      comparison
+    });
+
+    els.itemForm.reset();
+    els.itemCategory.value = "Alimentacao";
+    saveState();
+    render();
+  }
+
+  function addPantryItem() {
+    state.pantry.unshift({
+      id: crypto.randomUUID(),
+      name: normalizeName(els.pantryName.value),
+      qty: els.pantryQty.value.trim(),
+      expiresAt: els.pantryDate.value
+    });
+    els.pantryForm.reset();
+    saveState();
+    render();
+  }
+
+  function saveBudget() {
+    const budget = parsePrice(els.monthlyBudget.value);
+    state.settings.monthlyBudget = Number.isNaN(budget) ? 0 : budget;
+    state.settings.mainStore = els.mainStore.value.trim();
+    saveState();
+    renderFinance();
+  }
+
+  function addRecurringItem() {
+    const price = parsePrice(els.recurringPrice.value);
+    if (!els.recurringName.value.trim() || Number.isNaN(price)) return;
+    state.recurring.unshift({
+      id: crypto.randomUUID(),
+      name: normalizeName(els.recurringName.value),
+      qty: els.recurringQty.value.trim(),
+      price,
+      category: els.recurringCategory.value
+    });
+    els.recurringForm.reset();
+    els.recurringCategory.value = "Alimentacao";
+    saveState();
+    renderTools();
+  }
+
+  function addRecurringToShopping(id) {
+    const item = state.recurring.find((entry) => entry.id === id);
+    if (!item) return;
+    const comparison = comparePrice(item.name, item.price);
+    state.shopping.unshift({
+      id: crypto.randomUUID(),
+      name: item.name,
+      qty: item.qty,
+      category: item.category,
+      price: item.price,
+      checked: false,
+      createdAt: new Date().toISOString(),
+      comparison
+    });
+    saveState();
+    render();
+    setTab("shopping");
+  }
+
+  function removeRecurringItem(id) {
+    state.recurring = state.recurring.filter((item) => item.id !== id);
+    saveState();
+    renderTools();
+  }
+
+  function addChore() {
+    state.chores.unshift({
+      id: crypto.randomUUID(),
+      name: els.choreName.value.trim(),
+      owner: els.choreOwner.value.trim() || "Casa",
+      dueAt: els.choreDay.value,
+      done: false
+    });
+    els.choreForm.reset();
+    saveState();
+    renderTools();
+  }
+
+  function toggleChore(id) {
+    const chore = state.chores.find((entry) => entry.id === id);
+    if (!chore) return;
+    chore.done = !chore.done;
+    saveState();
+    renderTools();
+  }
+
+  function removeChore(id) {
+    state.chores = state.chores.filter((item) => item.id !== id);
+    saveState();
+    renderTools();
+  }
+
+  function toggleItem(id) {
+    const item = state.shopping.find((entry) => entry.id === id);
+    if (item) {
+      item.checked = !item.checked;
+      saveState();
+      renderShopping();
+      renderSummary();
+    }
+  }
+
+  function removeShoppingItem(id) {
+    state.shopping = state.shopping.filter((item) => item.id !== id);
+    saveState();
+    render();
+  }
+
+  function removePantryItem(id) {
+    state.pantry = state.pantry.filter((item) => item.id !== id);
+    saveState();
+    render();
+  }
+
+  function clearChecked() {
+    state.shopping = state.shopping.filter((item) => !item.checked);
+    saveState();
+    render();
+  }
+
+  function finishPurchase() {
+    const purchased = state.shopping.filter((item) => item.checked);
+    const source = purchased.length ? purchased : state.shopping;
+    if (!source.length) return;
+
+    source.forEach((item) => {
+      state.purchases.push({
+        id: crypto.randomUUID(),
+        name: item.name,
+        qty: item.qty,
+        category: item.category,
+        price: item.price,
+        purchasedAt: new Date().toISOString()
+      });
+    });
+    state.shopping = state.shopping.filter((item) => !source.some((entry) => entry.id === item.id));
+    saveState();
+    render();
+    setTab("finance");
+  }
+
+  function updatePriceHelper() {
+    const name = normalizeName(els.itemName.value);
+    const price = parsePrice(els.itemPrice.value);
+    const last = findLastPurchase(name);
+
+    if (!name) {
+      els.priceHelper.textContent = "Digite um produto para ver o ultimo preco pago.";
+      return;
+    }
+
+    if (!last) {
+      els.priceHelper.textContent = "Sem historico ainda para este produto.";
+      return;
+    }
+
+    const prefix = `Ultimo preco pago: ${currency.format(last.price)}.`;
+    if (Number.isNaN(price)) {
+      els.priceHelper.textContent = prefix;
+      return;
+    }
+
+    const comparison = comparePrice(name, price);
+    els.priceHelper.textContent = `${prefix} Agora esta ${comparison.label.toLowerCase()}. ${comparison.text}`;
+  }
+
+  function comparePrice(name, currentPrice) {
+    const last = findLastPurchase(name);
+    if (!last) {
+      return { direction: "new", label: "Sem historico", text: "Primeiro registro deste item." };
+    }
+    if (currentPrice === last.price) {
+      return { direction: "same", label: "Na media", text: "Mesmo preco da ultima compra." };
+    }
+    const diff = ((currentPrice - last.price) / last.price) * 100;
+    if (diff > 0) {
+      return { direction: "up", label: "Caro", text: `+ ${Math.abs(diff).toFixed(0)}% mais caro que a ultima compra.` };
+    }
+    return { direction: "down", label: "Barato", text: `- ${Math.abs(diff).toFixed(0)}% mais barato.` };
+  }
+
+  function findLastPurchase(name) {
+    if (!name) return null;
+    return state.purchases
+      .filter((item) => item.name.toLowerCase() === name.toLowerCase())
+      .sort((a, b) => new Date(b.purchasedAt) - new Date(a.purchasedAt))[0] || null;
+  }
+
+  function render() {
+    renderHistoryOptions();
+    renderSummary();
+    renderShopping();
+    renderFinance();
+    renderInsights();
+    renderPantry();
+    renderRecipes();
+    renderTools();
+    updatePriceHelper();
+  }
+
+  function renderSummary() {
+    const total = state.shopping.reduce((sum, item) => sum + item.price, 0);
+    const checked = state.shopping.filter((item) => item.checked).length;
+    const alertCount = state.pantry.filter((item) => daysUntil(item.expiresAt) <= 3).length;
+    els.currentTotal.textContent = currency.format(total);
+    els.checkedCount.textContent = `${checked} ${checked === 1 ? "item" : "itens"}`;
+    els.pantryAlert.textContent = alertCount ? `${alertCount} alerta${alertCount > 1 ? "s" : ""}` : "Tudo ok";
+  }
+
+  function renderShopping() {
+    els.shoppingList.innerHTML = "";
+    els.shoppingEmpty.classList.toggle("visible", state.shopping.length === 0);
+
+    state.shopping.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = `item-card${item.checked ? " checked" : ""}`;
+      const comparison = item.comparison || comparePrice(item.name, item.price);
+      card.innerHTML = `
+        <input class="item-check" type="checkbox" ${item.checked ? "checked" : ""} aria-label="Marcar ${escapeHtml(item.name)}">
+        <div>
+          <p class="item-title">${escapeHtml(item.name)}</p>
+          <div class="item-meta">${escapeHtml(item.qty)} - ${escapeHtml(item.category)}</div>
+        </div>
+        <div class="price-badge">
+          <span>${currency.format(item.price)}</span>
+          <span class="trend ${comparison.direction}">${trendIcon(comparison.direction)} ${escapeHtml(comparison.text)}</span>
+          <button class="ghost-button compact" type="button">Excluir</button>
+        </div>
+      `;
+      card.querySelector(".item-check").addEventListener("change", () => toggleItem(item.id));
+      card.querySelector("button").addEventListener("click", () => removeShoppingItem(item.id));
+      els.shoppingList.appendChild(card);
+    });
+  }
+
+  function renderFinance() {
+    const filtered = filterPurchasesByPeriod(els.periodFilter.value);
+    const totals = groupTotals(filtered);
+    renderBudgetStatus();
+    drawChart(totals);
+    els.financeList.innerHTML = "";
+
+    Object.entries(totals)
+      .sort((a, b) => b[1] - a[1])
+      .forEach(([category, total]) => {
+        const row = document.createElement("article");
+        row.className = "finance-row";
+        row.innerHTML = `<strong>${escapeHtml(category)}</strong><span>${countByCategory(filtered, category)} compra(s)</span><strong>${currency.format(total)}</strong>`;
+        els.financeList.appendChild(row);
+      });
+  }
+
+  function renderBudgetStatus() {
+    els.monthlyBudget.value = state.settings.monthlyBudget ? formatNumberInput(state.settings.monthlyBudget) : "";
+    els.mainStore.value = state.settings.mainStore || "";
+    const monthTotal = filterPurchasesByPeriod("month").reduce((sum, item) => sum + item.price, 0);
+    const listTotal = state.shopping.reduce((sum, item) => sum + item.price, 0);
+    const projected = monthTotal + listTotal;
+    const budget = state.settings.monthlyBudget || 0;
+    els.budgetStatus.className = "budget-status";
+
+    if (!budget) {
+      els.budgetStatus.textContent = `Gasto do mes: ${currency.format(monthTotal)}. Defina uma meta para receber alertas.`;
+      return;
+    }
+
+    const remaining = budget - projected;
+    const percent = Math.round((projected / budget) * 100);
+    if (remaining < 0) {
+      els.budgetStatus.classList.add("over");
+      els.budgetStatus.textContent = `Atencao: previsao de ${currency.format(projected)}, ${currency.format(Math.abs(remaining))} acima da meta.`;
+      return;
+    }
+
+    if (percent >= 80) {
+      els.budgetStatus.classList.add("warn");
+    }
+    els.budgetStatus.textContent = `Usado/previsao: ${percent}% da meta. Ainda sobram ${currency.format(remaining)}.`;
+  }
+
+  function renderInsights() {
+    const frequency = {};
+    const spend = {};
+    state.purchases.forEach((item) => {
+      frequency[item.name] = (frequency[item.name] || 0) + 1;
+      spend[item.name] = (spend[item.name] || 0) + item.price;
+    });
+
+    renderRanking(els.favoriteRanking, frequency, (value) => `${value} compra(s)`);
+    renderRanking(els.expensiveRanking, spend, (value) => currency.format(value));
+
+    const firstProduct = Object.keys(frequency).sort((a, b) => frequency[b] - frequency[a])[0];
+    renderProductHistory(firstProduct);
+  }
+
+  function renderRanking(container, data, formatValue) {
+    container.innerHTML = "";
+    Object.entries(data)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .forEach(([name, value]) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<button class="history-button" type="button"><strong>${escapeHtml(name)}</strong> <span>${formatValue(value)}</span></button>`;
+        li.querySelector("button").addEventListener("click", () => renderProductHistory(name));
+        container.appendChild(li);
+      });
+
+    if (!container.children.length) {
+      container.innerHTML = "<li>Finalize uma compra para gerar o ranking.</li>";
+    }
+  }
+
+  function renderProductHistory(name) {
+    if (!name) {
+      els.productHistory.innerHTML = "<h2>Historico do produto</h2><p class=\"item-meta\">Sem compras registradas ainda.</p>";
+      return;
+    }
+    const entries = state.purchases
+      .filter((item) => item.name === name)
+      .sort((a, b) => new Date(a.purchasedAt) - new Date(b.purchasedAt));
+    const max = Math.max(...entries.map((item) => item.price), 1);
+    const rows = entries.map((item) => {
+      const date = new Date(item.purchasedAt).toLocaleDateString("pt-BR", { month: "short", year: "2-digit" });
+      const width = Math.max((item.price / max) * 100, 8);
+      return `<div class="timeline-row"><span>${date}</span><div class="bar" style="width:${width}%"></div><strong>${currency.format(item.price)}</strong></div>`;
+    }).join("");
+    els.productHistory.innerHTML = `<h2>Historico: ${escapeHtml(name)}</h2><div class="mini-timeline">${rows}</div>`;
+  }
+
+  function renderPantry() {
+    els.pantryList.innerHTML = "";
+    state.pantry
+      .slice()
+      .sort((a, b) => new Date(a.expiresAt) - new Date(b.expiresAt))
+      .forEach((item) => {
+        const days = daysUntil(item.expiresAt);
+        const status = pantryStatus(days);
+        const card = document.createElement("article");
+        card.className = "pantry-card";
+        card.innerHTML = `
+          <div>
+            <p class="pantry-title">${escapeHtml(item.name)}</p>
+            <div class="pantry-meta">${escapeHtml(item.qty)} - vence em ${formatDays(days)}</div>
+          </div>
+          <div>
+            <span class="pantry-status ${status.className}">${status.label}</span>
+            <button class="ghost-button compact" type="button">Excluir</button>
+          </div>
+        `;
+        card.querySelector("button").addEventListener("click", () => removePantryItem(item.id));
+        els.pantryList.appendChild(card);
+      });
+  }
+
+  function renderRecipes() {
+    const pantryNames = state.pantry.map((item) => item.name.toLowerCase());
+    const cheapNames = state.shopping
+      .filter((item) => item.comparison && item.comparison.direction === "down")
+      .map((item) => item.name.toLowerCase());
+    els.recipeGrid.innerHTML = "";
+
+    recipes.forEach((recipe) => {
+      const matches = recipe.needs.filter((need) => pantryNames.some((name) => name.includes(need)) || cheapNames.some((name) => name.includes(need)));
+      const card = document.createElement("article");
+      card.className = "recipe-card";
+      card.innerHTML = `<h2>${escapeHtml(recipe.title)}</h2><strong>${matches.length} ingrediente(s) ja ajudam</strong><p>${escapeHtml(recipe.text)}</p>`;
+      els.recipeGrid.appendChild(card);
+    });
+  }
+
+  function renderTools() {
+    renderRecurring();
+    renderChores();
+    renderStorePlan();
+  }
+
+  function renderRecurring() {
+    els.recurringList.innerHTML = "";
+    state.recurring.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "quick-card";
+      card.innerHTML = `
+        <div>
+          <strong>${escapeHtml(item.name)}</strong>
+          <div class="item-meta">${escapeHtml(item.qty)} - ${escapeHtml(item.category)} - ${currency.format(item.price)}</div>
+        </div>
+        <div class="quick-actions">
+          <button class="secondary-button compact" type="button">Usar</button>
+          <button class="ghost-button compact" type="button">Excluir</button>
+        </div>
+      `;
+      const buttons = card.querySelectorAll("button");
+      buttons[0].addEventListener("click", () => addRecurringToShopping(item.id));
+      buttons[1].addEventListener("click", () => removeRecurringItem(item.id));
+      els.recurringList.appendChild(card);
+    });
+
+    if (!state.recurring.length) {
+      els.recurringList.innerHTML = "<div class=\"item-meta\">Crie atalhos para compras que voltam toda semana ou todo mes.</div>";
+    }
+  }
+
+  function renderChores() {
+    els.choreList.innerHTML = "";
+    state.chores
+      .slice()
+      .sort((a, b) => new Date(a.dueAt) - new Date(b.dueAt))
+      .forEach((chore) => {
+        const days = daysUntil(chore.dueAt);
+        const card = document.createElement("article");
+        card.className = `quick-card${chore.done ? " done" : ""}`;
+        card.innerHTML = `
+          <div>
+            <strong>${escapeHtml(chore.name)}</strong>
+            <div class="item-meta">${escapeHtml(chore.owner)} - ${formatDays(days)}</div>
+          </div>
+          <div class="quick-actions">
+            <button class="secondary-button compact" type="button">${chore.done ? "Reabrir" : "Feito"}</button>
+            <button class="ghost-button compact" type="button">Excluir</button>
+          </div>
+        `;
+        const buttons = card.querySelectorAll("button");
+        buttons[0].addEventListener("click", () => toggleChore(chore.id));
+        buttons[1].addEventListener("click", () => removeChore(chore.id));
+        els.choreList.appendChild(card);
+      });
+
+    if (!state.chores.length) {
+      els.choreList.innerHTML = "<div class=\"item-meta\">Organize tarefas domesticas e divida responsabilidades.</div>";
+    }
+  }
+
+  function renderStorePlan() {
+    if (!state.shopping.length) {
+      els.storePlan.textContent = "Adicione itens na lista para separar compras por categoria.";
+      return;
+    }
+
+    const store = state.settings.mainStore || "Mercado principal";
+    const groups = state.shopping.reduce((acc, item) => {
+      acc[item.category] = acc[item.category] || [];
+      acc[item.category].push(item);
+      return acc;
+    }, {});
+
+    els.storePlan.innerHTML = `<strong>${escapeHtml(store)}</strong>` + Object.entries(groups)
+      .map(([category, items]) => {
+        const total = items.reduce((sum, item) => sum + item.price, 0);
+        const names = items.map((item) => `${escapeHtml(item.name)} (${escapeHtml(item.qty)})`).join(", ");
+        return `<p><strong>${escapeHtml(category)}:</strong> ${names}<br><span class="item-meta">Subtotal: ${currency.format(total)}</span></p>`;
+      })
+      .join("");
+  }
+
+  function compareUnitPrices() {
+    const priceA = parsePrice(els.unitPriceA.value);
+    const qtyA = parsePrice(els.unitQtyA.value);
+    const priceB = parsePrice(els.unitPriceB.value);
+    const qtyB = parsePrice(els.unitQtyB.value);
+    if ([priceA, qtyA, priceB, qtyB].some((value) => Number.isNaN(value) || value <= 0)) {
+      els.unitResult.textContent = "Preencha os quatro campos com valores maiores que zero.";
+      return;
+    }
+
+    const unitA = priceA / qtyA;
+    const unitB = priceB / qtyB;
+    const winner = unitA < unitB ? "A" : unitB < unitA ? "B" : "empate";
+    if (winner === "empate") {
+      els.unitResult.textContent = `Empate: as duas opcoes custam ${currency.format(unitA)} por unidade.`;
+      return;
+    }
+    const saving = Math.abs(unitA - unitB) * (winner === "A" ? qtyB : qtyA);
+    els.unitResult.textContent = `Opcao ${winner} compensa mais. A: ${currency.format(unitA)} por unidade. B: ${currency.format(unitB)} por unidade. Economia estimada: ${currency.format(saving)}.`;
+  }
+
+  function renderHistoryOptions() {
+    const names = [...new Set(state.purchases.map((item) => item.name))].sort();
+    els.historyList.innerHTML = names.map((name) => `<option value="${escapeHtml(name)}"></option>`).join("");
+  }
+
+  function drawChart(totals) {
+    const ctx = els.spendChart.getContext("2d");
+    const width = els.spendChart.width;
+    const height = els.spendChart.height;
+    ctx.clearRect(0, 0, width, height);
+    const entries = Object.entries(totals);
+    if (!entries.length) {
+      ctx.fillStyle = "#687573";
+      ctx.font = "22px Arial";
+      ctx.fillText("Finalize compras para ver os gastos.", 24, 58);
+      return;
+    }
+
+    const colors = ["#76c7ad", "#f07867", "#5c8fba", "#f3b23f", "#9b7ede"];
+    const max = Math.max(...entries.map((entry) => entry[1]));
+    const left = 150;
+    const rowHeight = 48;
+    ctx.font = "18px Arial";
+    entries.forEach(([category, total], index) => {
+      const y = 42 + index * rowHeight;
+      const barWidth = Math.max((total / max) * (width - left - 34), 10);
+      ctx.fillStyle = "#24312f";
+      ctx.fillText(category, 18, y + 10);
+      ctx.fillStyle = colors[index % colors.length];
+      ctx.fillRect(left, y - 12, barWidth, 26);
+      ctx.fillStyle = "#24312f";
+      ctx.fillText(currency.format(total), left + barWidth + 10, y + 9);
+    });
+  }
+
+  function filterPurchasesByPeriod(period) {
+    const now = new Date();
+    return state.purchases.filter((item) => {
+      const date = new Date(item.purchasedAt);
+      if (period === "week") return (now - date) / 86400000 <= 7;
+      if (period === "year") return date.getFullYear() === now.getFullYear();
+      return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
+    });
+  }
+
+  function groupTotals(items) {
+    return items.reduce((acc, item) => {
+      acc[item.category] = (acc[item.category] || 0) + item.price;
+      return acc;
+    }, {});
+  }
+
+  function countByCategory(items, category) {
+    return items.filter((item) => item.category === category).length;
+  }
+
+  function shareList() {
+    const lines = state.shopping.map((item) => `${item.checked ? "[x]" : "[ ]"} ${item.name} - ${item.qty} - ${currency.format(item.price)}`);
+    const total = state.shopping.reduce((sum, item) => sum + item.price, 0);
+    const message = ["Listinha da Rosa", ...lines, `Total estimado: ${currency.format(total)}`].join("\n");
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
+  }
+
+  async function startBarcodeReader() {
+    els.barcodeDialog.showModal();
+    if (!("BarcodeDetector" in window) || !navigator.mediaDevices) {
+      els.barcodeStatus.textContent = "Seu navegador nao liberou leitor automatico. Digite o codigo ou nome do produto manualmente.";
+      return;
+    }
+
+    try {
+      barcodeStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+      els.barcodeVideo.srcObject = barcodeStream;
+      await els.barcodeVideo.play();
+      const detector = new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "code_128"] });
+      scanBarcode(detector);
+    } catch (error) {
+      els.barcodeStatus.textContent = "Nao foi possivel acessar a camera neste navegador.";
+    }
+  }
+
+  async function scanBarcode(detector) {
+    if (!els.barcodeDialog.open) return;
+    try {
+      const codes = await detector.detect(els.barcodeVideo);
+      if (codes.length) {
+        els.itemName.value = `Produto ${codes[0].rawValue}`;
+        els.barcodeDialog.close();
+        updatePriceHelper();
+        return;
+      }
+    } catch (error) {
+      els.barcodeStatus.textContent = "Leitura indisponivel. Tente digitar o produto.";
+      return;
+    }
+    requestAnimationFrame(() => scanBarcode(detector));
+  }
+
+  function stopBarcodeReader() {
+    if (barcodeStream) {
+      barcodeStream.getTracks().forEach((track) => track.stop());
+      barcodeStream = null;
+    }
+  }
+
+  function loadState() {
+    const saved = localStorage.getItem(storageKey);
+    if (saved) {
+      try {
+        return migrateState(JSON.parse(saved));
+      } catch (error) {
+        return createDemoState();
+      }
+    }
+    return createDemoState();
+  }
+
+  function saveState() {
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  }
+
+  function createDemoState() {
+    const now = new Date();
+    const monthsAgo = (months, day) => new Date(now.getFullYear(), now.getMonth() - months, day || 10).toISOString();
+    return {
+      shopping: [
+        { id: crypto.randomUUID(), name: "arroz 5kg", qty: "1 pacote", category: "Alimentacao", price: 31.9, checked: false, createdAt: now.toISOString(), comparison: { direction: "up", label: "Caro", text: "+ 10% mais caro que a ultima compra." } },
+        { id: crypto.randomUUID(), name: "banana", qty: "1 duzia", category: "Feira", price: 7.5, checked: true, createdAt: now.toISOString(), comparison: { direction: "down", label: "Barato", text: "- 6% mais barato." } }
+      ],
+      purchases: [
+        { id: crypto.randomUUID(), name: "arroz 5kg", qty: "1 pacote", category: "Alimentacao", price: 27.8, purchasedAt: monthsAgo(5) },
+        { id: crypto.randomUUID(), name: "arroz 5kg", qty: "1 pacote", category: "Alimentacao", price: 29.0, purchasedAt: monthsAgo(2) },
+        { id: crypto.randomUUID(), name: "banana", qty: "1 duzia", category: "Feira", price: 8.0, purchasedAt: monthsAgo(1) },
+        { id: crypto.randomUUID(), name: "detergente", qty: "3 un", category: "Limpeza", price: 7.2, purchasedAt: monthsAgo(0, 2) },
+        { id: crypto.randomUUID(), name: "leite", qty: "6 un", category: "Alimentacao", price: 28.5, purchasedAt: monthsAgo(0, 4) }
+      ],
+      pantry: [
+        { id: crypto.randomUUID(), name: "molho de tomate", qty: "2 saches", expiresAt: addDays(2) },
+        { id: crypto.randomUUID(), name: "farinha", qty: "1 pacote", expiresAt: addDays(18) },
+        { id: crypto.randomUUID(), name: "macarrao", qty: "3 pacotes", expiresAt: addDays(45) }
+      ],
+      recurring: [
+        { id: crypto.randomUUID(), name: "leite", qty: "6 un", category: "Alimentacao", price: 28.5 },
+        { id: crypto.randomUUID(), name: "detergente", qty: "3 un", category: "Limpeza", price: 7.2 }
+      ],
+      chores: [
+        { id: crypto.randomUUID(), name: "limpar geladeira", owner: "Casa", dueAt: addDays(3), done: false },
+        { id: crypto.randomUUID(), name: "conferir contas da semana", owner: "Eu", dueAt: addDays(1), done: false }
+      ],
+      settings: {
+        monthlyBudget: 900,
+        mainStore: "Mercado principal"
+      }
+    };
+  }
+
+  function migrateState(data) {
+    return {
+      shopping: Array.isArray(data.shopping) ? data.shopping : [],
+      purchases: Array.isArray(data.purchases) ? data.purchases : [],
+      pantry: Array.isArray(data.pantry) ? data.pantry : [],
+      recurring: Array.isArray(data.recurring) ? data.recurring : [],
+      chores: Array.isArray(data.chores) ? data.chores : [],
+      settings: {
+        monthlyBudget: data.settings && Number(data.settings.monthlyBudget) ? Number(data.settings.monthlyBudget) : 0,
+        mainStore: data.settings && data.settings.mainStore ? String(data.settings.mainStore) : ""
+      }
+    };
+  }
+
+  function normalizeName(value) {
+    return value.trim().replace(/\s+/g, " ").toLowerCase();
+  }
+
+  function parsePrice(value) {
+    const normalized = String(value).trim().replace(/\./g, "").replace(",", ".");
+    return normalized ? Number(normalized) : Number.NaN;
+  }
+
+  function formatNumberInput(value) {
+    return String(value.toFixed(2)).replace(".", ",");
+  }
+
+  function daysUntil(dateValue) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const target = new Date(`${dateValue}T00:00:00`);
+    return Math.ceil((target - today) / 86400000);
+  }
+
+  function addDays(days) {
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    return date.toISOString().slice(0, 10);
+  }
+
+  function pantryStatus(days) {
+    if (days <= 3) return { className: "danger", label: "Vermelho" };
+    if (days <= 10) return { className: "warn", label: "Amarelo" };
+    return { className: "ok", label: "Verde" };
+  }
+
+  function formatDays(days) {
+    if (days < 0) return `${Math.abs(days)} dia(s) vencido`;
+    if (days === 0) return "hoje";
+    return `${days} dia(s)`;
+  }
+
+  function trendIcon(direction) {
+    if (direction === "up") return "^";
+    if (direction === "down") return "v";
+    if (direction === "same") return "=";
+    return "*";
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+})();
+
+</script>
+  </body>
+</html>
+
